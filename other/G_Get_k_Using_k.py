@@ -1,0 +1,1 @@
+tcase = int(input())
