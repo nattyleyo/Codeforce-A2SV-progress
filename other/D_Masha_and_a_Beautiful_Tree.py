@@ -7,7 +7,7 @@ def divide(nums,left,right):
     
     mid = (left + right)//2
         
-    maxi = max(nums[left:mid+1])
+    maxi = max(nums[left:mid+1])uuuu
     mini = min(nums[mid+1:right+1])
     
     if maxi > mini:
