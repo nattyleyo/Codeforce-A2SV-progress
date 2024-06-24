@@ -1,58 +1,52 @@
-from collections import deque
+from collections import defaultdict
+def findDiv(number):
+    fact = set([1,number])
+    n = number
+    for i in range(2, int(number**0.5) + 1):
+        if number % i == 0:
+            fact.add(i)
+            if i != number // i:
+                fact.add(number // i)
+    return fact
 
-# Input handling
+def solve(a, div):
+    a.sort()
+    print(a)
+    count = [0] * (len(div)+1)
+    tmp = [0] * (len(div)+1)
+    
+    ans = 0
+    rem = n
+    
+    for e in a:
+        rem -= 1
+        val = 0
+
+        for d in div[e]:
+            val = count[d] - tmp[d]
+
+            for d2 in div[d]:
+                tmp[d2] += val
+
+            ans += d * val * rem
+
+
+
+
+    return ans
+
 t = int(input())
 for _ in range(t):
-
-    N = int(input())
-    arr = list(map(int, input().split()))
-    arr.sort()
-
-    MAX = 10**5  # Assuming MAX is defined somewhere
-
-    freq = [0] * (MAX+1)
-    for i in range(N-1):
-        freq[arr[i]] += 1
-
-    cnt = [0] * (MAX+1)
-    for d in range(1, MAX):
-        for v in range(d, MAX+1, d):
-            cnt[d] += freq[v]
-
-    dp = [0] * (MAX+1)
-    for t in range(N-2, 0, -1):
-        K = 0
-        val = arr[t]
-        primes = []
-        while val > 1:
-            for p in range(2, int(val**0.5)+1):
-                if val % p == 0:
-                    primes.append(p)
-                    val //= p
-                    break
-            else:
-                primes.append(val)
-                break
-
-        q = deque([arr[t]])
-        time = t
-        ts = [0] * (MAX+1)
-
-        while q:
-            val = q.popleft()
-            dp[val] += (cnt[val] - 1) * (N - t - 1)
-            cnt[val] -= 1
-
-            for p in primes:
-                if p > val:
-                    continue
-                next_val = val // p
-                if next_val * p != val:
-                    continue
-                if ts[next_val] != time:
-                    ts[next_val] = time
-                    q.append(next_val)
-    print(sum(dp))
-
-    # Output dp or whatever you need with dp
+    n = int(input())
+    a = list(map(int, input().split()))
+    M = max(a)
+    div = defaultdict(list)
+    for i in range(1, M+1):
+        x = list(findDiv(i))
+        div[i].extend(x)
+    # print(div) 
+    
+    
+    ans = solve(a,div)
+    print(ans)
 
