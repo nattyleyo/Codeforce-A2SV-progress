@@ -19,6 +19,7 @@ def union(x, y):
 
 n, q = map(int, input().split())
 graph = {i: i for i in range(1, n + 1)}
+dic = {i: i+1 for i in range(1, n + 1)}
 size = [1] * (n + 1)
 
 for _ in range(q):
@@ -26,10 +27,11 @@ for _ in range(q):
     if tp == 1:
         union(x, y)
     elif tp == 2:
-        x = min(graph.keys())
-        while x < y:
-            union(x, x + 1)
-            x += 1
+        cur = dic[x]
+        while cur <= y:
+            union(x, cur)
+            dic[cur],cur = dic[y],dic[cur]
+            
     else:
         if find(x) == find(y):
             print('YES')
